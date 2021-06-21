@@ -140,9 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="film.h" />
+    <ClInclude Include="sortowania.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="baza.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="projekt2_dane.csv" />

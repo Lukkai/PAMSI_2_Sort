@@ -18,9 +18,12 @@
     <ClInclude Include="film.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sortowania.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="baza.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
