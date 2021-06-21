@@ -33,5 +33,6 @@
   <ItemGroup>
     <Text Include="projekt2_dane.txt" />
     <Text Include="test.txt" />
+    <Text Include="projekt2_dane_sorted.txt" />
   </ItemGroup>
 </Project>

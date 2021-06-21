@@ -8,8 +8,8 @@
 #include <vector>
 
 /*Zwraca wartosc boolean dla zapytania czy tablica jest posortowana*/
-bool posortowane(Film* tablica, int& size) {
-	for (int i = 0; i < size - 1; i++)
+bool posortowane(Film* tablica, int& rozmiar) {
+	for (int i = 0; i < rozmiar - 1; i++)
 		if (tablica[i].wynik > tablica[i + 1].wynik)
 			return false;
 	return true;
@@ -30,6 +30,10 @@ void Podmien(Film* tab, int ind1, int ind2) {
 	tab[ind2] = temp;
 }
 
+/*****SORTOWANIE PRZEZ SCALANIE*****/
+//Sortowanie przez scalanie tablicy tab
+//lewa- poczatek tablicy (lewa strona)
+//prawa- koniec tablicy (prawa strona)
 void Scal(Film* tab, int lewa, int srodek, int prawa);
 void Sort_scal(Film* tab, int lewa, int prawa)
 {
@@ -92,8 +96,10 @@ void Scal(Film* tab, int lewa, int srodek, int prawa)
 }
 
 
-//QUICKSORT
-
+/*************QUICKSORT*************/
+//szybkie sortowanie tablicy tab
+//lewa- poczatek tablicy (lewa strona)
+//prawa- koniec tablicy (prawa strona)
 int Partition(Film* tab, int start, int end) // wektor, początek partycji[Index], koniec partycji[Index]
 {
 	int k = (start + end) / 2;  //jako PIVOT wybieramy wartość o środkowym indeksie
@@ -145,7 +151,10 @@ void Sort_wst(Film* tab, int rozm) {
 }
 
 //HEAPSORT POTRZEBNY DO INTROSORT
-
+/****SORTOWANIE PRZEZ KOPCOWANIE****/
+//Sortowanie przez kopcowanie tablicy tab
+//rozm- rozmiar tablicy
+//korzen- poczatek tablicy (root)
 void Utworz_Kopiec(Film* tab, int rozm, int korzen) {
 	int Max = korzen;
 	int lewysyn = 2 * korzen + 1;
@@ -161,6 +170,9 @@ void Utworz_Kopiec(Film* tab, int rozm, int korzen) {
 	}
 }
 
+/****SORTOWANIE PRZEZ WSTAWIANIE****/
+//Sortowanie przez wstawianie tablicy tab
+//rozm- rozmiar tablicy
 void Sort_kopc(Film* tab, int rozm) {
 	for (int i = rozm / 2 - 1; i >= 0; i--)
 		Utworz_Kopiec(tab, rozm, i);
@@ -253,43 +265,43 @@ void bucketSort(Film* tab, int rozmiar)
 	/*
 	* Szukamy minimalnej i maksymalnej wartosci w tablicy
 	*/
-	long int minValue = tab[0].wynik, maxValue = tab[0].wynik;
-	
+	long int minWartosc = tab[0].wynik, maxWartosc = tab[0].wynik;
+
 	for (int i = 1; i < rozmiar; i++) {
-		if (tab[i].wynik > maxValue)
-			maxValue = tab[i].wynik;
-		if (tab[i].wynik < minValue)
-			minValue = tab[i].wynik;
+		if (tab[i].wynik > maxWartosc)
+			maxWartosc = tab[i].wynik;
+		if (tab[i].wynik < minWartosc)
+			minWartosc = tab[i].wynik;
 	}
-	
+
 	/*
 	 *      bucketLength - ile koszykow utowrzyc
 	 */
-	int bucketLength = maxValue - minValue + 1;
+	int dlugoscKoszyka = maxWartosc - minWartosc + 1;
 	/*
 	 * Dynamiaczna tablica vectora bucket
 	 */
-	vector<Film>* bucket = new vector<Film>[bucketLength];
-	for (int i = 0; i < bucketLength; i++)
-		bucket[i] = vector<Film>();
-	
-	
+	vector<Film>* koszyk = new vector<Film>[dlugoscKoszyka];
+	for (int i = 0; i < dlugoscKoszyka; i++)
+		koszyk[i] = vector<Film>();
+
+
 	/*
 	 * Wrzucamy do koszykow odpowiednie wartosci
 	 */
 	for (long int i = 0; i < rozmiar; i++)
-		bucket[tab[i].wynik - minValue].push_back(tab[i]);
-	
+		koszyk[tab[i].wynik - minWartosc].push_back(tab[i]);
+
 	/*
 	 * kolejne koszyki sa laczone i ich wartosci przypiswyane do tablicy
 	 */
 	long int k = 0;
-	for (int i = 0; i < bucketLength; i++) {
-		if (bucket[i].size() > 0) {
-			for (long int j = 0; j < bucket[i].size(); j++, k++) {
-				tab[k] = bucket[i][j];
+	for (int i = 0; i < dlugoscKoszyka; i++) {
+		if (koszyk[i].size() > 0) {
+			for (long int j = 0; j < koszyk[i].size(); j++, k++) {
+				tab[k] = koszyk[i][j];
 			}
 		}
 	}
-	delete[] bucket;
+	delete[] koszyk;
 }
