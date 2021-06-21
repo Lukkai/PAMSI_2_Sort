@@ -22,7 +22,7 @@ void swapElements(T& elem1, T& elem2) {
 	elem1 = elem2;
 	elem2 = temp;
 }
-/*Funkcja podmieniająca wartości w tablicy o indeksach ind1 oraz ind2* /
+/*Funkcja podmieniająca wartości w tablicy o indeksach ind1 oraz ind2*/
 void Podmien(Film* tab, int ind1, int ind2) {
 	Film temp;                     //zmienna pomocnicza
 	temp = tab[ind1];
