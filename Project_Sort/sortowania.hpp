@@ -200,7 +200,8 @@ void Sort_kopc(Film* tab, int start, int end)
 //lewa- poczatek tablicy (lewa strona)
 //prawa- koniec tablicy (prawa strona)
 //glebokosc- maksymalna glebokosc rekursji
-void Sort_intro(Film* tab, int start, int end, int glebokosc) {
+void Sort_intro(Film* tab, int start, int end, int glebokosc) 
+{
 	int size = end - start + 1;
 	if (size <= 16)
 		Sort_wst(tab, size);
