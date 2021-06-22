@@ -17,16 +17,16 @@ bool posortowane(Film* tablica, int& rozmiar) {
 /*Zamienia miejscami elementy*/
 template <typename T>
 void swapElements(T& elem1, T& elem2) {
-	T temp = elem1;
+	T temp = elem1;			//zmienna pomocnicza
 	elem1 = elem2;
 	elem2 = temp;
 }
 /*Funkcja podmieniająca wartości w tablicy o indeksach ind1 oraz ind2*/
-void Podmien(Film* tab, int ind1, int ind2) {
-	Film temp;                     //zmienna pomocnicza
-	temp = tab[ind1];
-	tab[ind1] = tab[ind2];
-	tab[ind2] = temp;
+template <typename T>
+void swapElements(T* tab, int s1, int s2) {
+	T temp = tab[s1];		//zmienna pomocnicza
+	tab[s1] = tab[s2];
+	tab[s2] = temp;
 }
 
 /*****SORTOWANIE PRZEZ SCALANIE*****/
@@ -97,10 +97,10 @@ void Scal(Film* tab, int lewa, int srodek, int prawa)
 
 /*************QUICKSORT*************/
 //szybkie sortowanie tablicy tab
-//lewa- poczatek tablicy (lewa strona)
-//prawa- koniec tablicy (prawa strona)
-int Partition(Film* tab, int start, int end) // wektor, początek partycji[Index], koniec partycji[Index]
-{
+//start- poczatek tablicy (lewa strona)
+//end- koniec tablicy (prawa strona)
+int Partition(Film* tab, int start, int end) 
+{									
 	int k = (start + end) / 2;  //jako PIVOT wybieramy wartość o środkowym indeksie
 	//int k=end-1;            //Jako PIVOT wybieramy wartość o przedostatnim indeksie
 	int pivot = tab[k].wynik;
@@ -121,7 +121,7 @@ int Partition(Film* tab, int start, int end) // wektor, początek partycji[Index
 			e--;
 		}
 		else
-			return e;// gdy i >= j zwraca j jako oś podziału tablicy (no jak się indeksy spotkają, że tak powiem)
+			return e;// gdy i >= j zwraca j jako oś podziału tablicy
 	}
 
 }
@@ -135,6 +135,9 @@ void QuickSort(Film* tab, int start, int end) {// sortowanie szybkie
 	}
 }
 
+/****SORTOWANIE PRZEZ WSTAWIANIE****/
+//Sortowanie przez wstawianie tablicy tab
+//rozm- rozmiar tablicy
 void Sort_wst(Film* tab, int rozm) {
 	Film pomoc;
 	int j;
@@ -159,62 +162,55 @@ void Utworz_Kopiec(Film* tab, int rozm, int korzen) {
 	int lewysyn = 2 * korzen + 1;
 	int prawysyn = 2 * korzen + 2;
 
-	if (lewysyn<rozm && tab[lewysyn].wynik >tab[Max].wynik) Max = lewysyn;
-	if (prawysyn<rozm && tab[prawysyn].wynik>tab[Max].wynik) Max = prawysyn;
+	if (lewysyn<rozm && tab[lewysyn].wynik > tab[Max].wynik) 
+		Max = lewysyn;
+	if (prawysyn<rozm && tab[prawysyn].wynik > tab[Max].wynik) 
+		Max = prawysyn;
 
 	if (Max != korzen) {
-		Podmien(tab, Max, korzen);
-
+		swapElements(tab, korzen, Max);
 		Utworz_Kopiec(tab, rozm, Max);
 	}
 }
 
-/****SORTOWANIE PRZEZ WSTAWIANIE****/
-//Sortowanie przez wstawianie tablicy tab
-//rozm- rozmiar tablicy
-void Sort_kopc(Film* tab, int rozm) {
-	for (int i = rozm / 2 - 1; i >= 0; i--)
-		Utworz_Kopiec(tab, rozm, i);
-
-	for (int i = rozm - 1; i >= 0; i--) {
-		Podmien(tab, 0, i);
-
-		Utworz_Kopiec(tab, i, 0);
+void Sort_kopc(Film* tab, int start, int end) 
+{
+	int rozm = end - start + 1;
+	Film* temp = new Film[rozm];
+	for (int i = 0; i < rozm; i++) {
+		temp[i] = tab[i + start];
 	}
+	for (int i = rozm / 2 - 1; i >= 0; --i)
+		Utworz_Kopiec(temp, rozm, i);
+
+	for (int i = rozm - 1; i >= 0; --i) 
+	{
+		swapElements(temp, 0, i);
+		Utworz_Kopiec(temp, i, 0);
+	}
+	
+	for (int i = 0; i < rozm; i++) {
+		tab[i + start] = temp[i];
+	}
+	delete[] temp;
 }
-
-
 
 /***********INTROSPEKTYWNE**********/
 //Sortowanie introspektywne tablicy tab
 //lewa- poczatek tablicy (lewa strona)
 //prawa- koniec tablicy (prawa strona)
 //glebokosc- maksymalna glebokosc rekursji
-int Podziel(Film* tab, int lewa, int prawa) {
-
-	int i = lewa, j = prawa;
-
-	int pkt_od = tab[(lewa + prawa) / 2].wynik;
-	i--;
-	j++;
-	while (1)
+void Sort_intro(Film* tab, int start, int end, int glebokosc) {
+	int size = end - start + 1;
+	if (size <= 16)
+		Sort_wst(tab, size);
+	else if (glebokosc == 0) 
+		Sort_kopc(tab, start, end);
+	else if (start<end) 
 	{
-		while (pkt_od > tab[++i].wynik);
-		while (pkt_od < tab[--j].wynik);
-		if (i <= j)
-			Podmien(tab, i, j);
-		else
-			return j;
-	}
-}
-
-void Sort_intro(Film* tab, int lewa, int prawa, int glebokosc) {
-	if ((prawa - lewa) < 16)   Sort_wst(tab, prawa - lewa + 1);
-	else if (glebokosc == 0) Sort_kopc(tab, prawa - lewa + 1);
-	else {
-		int pkt_od = Podziel(tab, lewa, prawa);
-		Sort_intro(tab, lewa, pkt_od - 1, glebokosc - 1);
-		Sort_intro(tab, pkt_od + 1, prawa, glebokosc - 1);
+		int pivot = Partition(tab, start, end);
+		Sort_intro(tab, start, pivot, --glebokosc);
+		Sort_intro(tab, pivot + 1, end, --glebokosc);
 	}
 }
 
@@ -280,9 +276,9 @@ void bucketSort(Film* tab, int rozmiar)
 	/*
 	 * Dynamiaczna tablica vectora bucket
 	 */
-	vector<Film>* koszyk = new vector<Film>[dlugoscKoszyka];
+	std::vector<Film> *koszyk = new std::vector<Film>[dlugoscKoszyka];
 	for (int i = 0; i < dlugoscKoszyka; i++)
-		koszyk[i] = vector<Film>();
+		koszyk[i] = std::vector<Film>();
 
 
 	/*

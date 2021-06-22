@@ -185,15 +185,15 @@ int main() {
 			return 0;
 		}
 		start = std::chrono::high_resolution_clock::now();   //start clock
-		//Sort_intro(lista_do_sort, 0, rozmiar2 - 1, 2 * log(rozmiar2));
-		Sort_intro(lista_do_sort, 0, rozmiar2 - 1, 2000);
+		Sort_intro(lista_do_sort, 0, rozmiar2 - 1, (int)log(rozmiar2) * 2);
+		//Sort_intro(lista_do_sort, 0, rozmiar2 - 1, 2000);
 		end = std::chrono::high_resolution_clock::now();     //stop clock
-		czas_quick = std::chrono::duration<double, std::milli>(end - start).count();
+		czas_intro = std::chrono::duration<double, std::milli>(end - start).count();
 		for (int i = 0; i < rozmiar2; i++)
 			cout << lista_do_sort[i] << endl;
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "intro posortowane\n";
-		cout << "Czas sortowania intro:" + to_string(czas_quick) << endl;
+		cout << "Czas sortowania intro:" + to_string(czas_intro) << endl;
 		delete[] lista_do_sort;
 	}
 	else if (opcja == 4)									//sortowanie kubelkowe
@@ -254,14 +254,14 @@ int main() {
 		}
 
 		start = std::chrono::high_resolution_clock::now();   //start clock
-		Sort_kopc(lista_do_sort, rozmiar2);
+		Sort_kopc(lista_do_sort, 0, rozmiar2-1);
 		end = std::chrono::high_resolution_clock::now();     //stop clock
 		czas_heap = std::chrono::duration<double, std::milli>(end - start).count();
 		for (int i = 0; i < rozmiar2; i++)
 			cout << lista_do_sort[i] << endl;
 		if (posortowane(lista_do_sort, rozmiar2))
-			cout << "insertion posortowane\n";
-		cout << "Czas sortowania insertion:" + to_string(czas_heap) << endl;
+			cout << "heap posortowane\n";
+		cout << "Czas sortowania heap:" + to_string(czas_heap) << endl;
 		delete[] lista_do_sort;
 	}
 	else if (opcja == 0)								//sortowanie przez scalanie, szybkie, introspektywne, kubelkowe
@@ -314,7 +314,7 @@ int main() {
 			return 0;
 		}
 		start = std::chrono::high_resolution_clock::now();   //start clock
-		Sort_intro(lista_do_sort, 0, rozmiar2 - 1, 2 * log(rozmiar2));
+		Sort_intro(lista_do_sort, 0, rozmiar2 - 1, 2 * (int)log(rozmiar2));
 		end = std::chrono::high_resolution_clock::now();     //stop clock
 		czas_intro = std::chrono::duration<double, std::milli>(end - start).count();
 		if (posortowane(lista_do_sort, rozmiar2))
