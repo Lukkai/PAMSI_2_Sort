@@ -14,6 +14,13 @@ bool posortowane(Film* tablica, int& rozmiar) {
 	return true;
 }
 
+bool odwrotniePosortowane(Film* arr, int& rozmiar) {
+	for (int i = 0; i < rozmiar - 1; i++)
+		if (arr[i].wynik < arr[i + 1].wynik)
+			return false;
+	return true;
+}
+
 /*Zamienia miejscami elementy*/
 template <typename T>
 void swapElements(T& elem1, T& elem2) {
@@ -125,6 +132,35 @@ int Partition(Film* tab, int start, int end)
 	}
 
 }
+int revPartition(Film* tab, int start, int end)
+{
+	int k = (start + end) / 2;  //jako PIVOT wybieramy wartość o środkowym indeksie
+	//int k=end-1;            //Jako PIVOT wybieramy wartość o przedostatnim indeksie
+	int pivot = tab[k].wynik;
+	int s = start-1;// zawsze na lewo
+	int e = end+1;// zawsze na prawo
+	while (true)
+	{
+		do {
+			s++;
+		} while (tab[s].wynik > pivot);// Idziemy od końca w lewo if (koniec > pivota) dopóki zaczynamy od pierwszyego elem
+		
+
+		do {
+			e--;
+		} while (tab[e].wynik < pivot);
+		
+
+		if (s >= e) // zamieniamy miejscami gdy i < j na lewo od pivota dajemy elem. mniejsze od pivota, na prawo zaś większe od pivota elem. 
+		{
+			return e;
+			s++;
+			e--;
+		}
+		swapElements(tab[s], tab[e]);// gdy i >= j zwraca j jako oś podziału tablicy
+	}
+
+}
 
 void QuickSort(Film* tab, int start, int end) {// sortowanie szybkie
 
@@ -132,6 +168,14 @@ void QuickSort(Film* tab, int start, int end) {// sortowanie szybkie
 		int p = Partition(tab, start, end);// dziele tablice na dwie czesci, gdzie end to punkt podzialu
 		QuickSort(tab, start, p);// rekurencyjnie quicksort dla pierwszej (lewej) czesci tablicy
 		QuickSort(tab, p + 1, end);// rekurencyjnie quicksort dla drugiej (prawej) czesci tablicy
+	}
+}
+void revQuickSort(Film* tab, int start, int end) {// sortowanie szybkie
+
+	if (start < end) {
+		int p = revPartition(tab, start, end);// dziele tablice na dwie czesci, gdzie end to punkt podzialu
+		revQuickSort(tab, start,p);// rekurencyjnie quicksort dla pierwszej (lewej) czesci tablicy
+		revQuickSort(tab, p+1, end);// rekurencyjnie quicksort dla drugiej (prawej) czesci tablicy
 	}
 }
 

@@ -1,5 +1,5 @@
-Rozmiar rzeczywiscie przeskanowanych danych:  1000
-Sortowanie merge:  19.0287 ms
-Sortowanie quick:  6.9871 ms
-Sortowanie  insertion:  5.428 ms
-Sortowanie bucket:  4.0949 ms
+Rozmiar rzeczywiscie przeskanowanych danych:  200
+Sortowanie merge:  0 ms
+Sortowanie quick:  0 ms
+Sortowanie  intro:  0 ms
+Sortowanie bucket:  0 ms

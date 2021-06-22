@@ -120,6 +120,7 @@ int main() {
 	double czas_bucket = 0;
 	double czas_insertion = 0;
 	double czas_heap = 0;
+	double czas_rev_quick = 0;
 	int opcja;
 	std::cout << "Wybierz sortowanie: \n"
 		"1. mergesort\n"
@@ -128,6 +129,7 @@ int main() {
 		"4. bucketsort\n"
 		"5. insertionsort\n"
 		"6. heapsort\n"
+		"7. revquicksort\n"
 		"0. merge, quick, intro, bucket\n";
 	std::cin >> opcja;
 
@@ -169,8 +171,9 @@ int main() {
 		czas_quick = std::chrono::duration<double, std::milli>(end - start).count();
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "quick posortowane\n";
-		cout << "Czas sortowania quick:" + to_string(czas_quick) << endl;
 
+		cout << "Czas sortowania quick:" + to_string(czas_quick) << endl;
+		
 		delete[] lista_do_sort;
 	}
 	else if (opcja == 3)								//sortowanie introspektywne
@@ -193,6 +196,7 @@ int main() {
 			cout << lista_do_sort[i] << endl;
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "intro posortowane\n";
+
 		cout << "Czas sortowania intro:" + to_string(czas_intro) << endl;
 		delete[] lista_do_sort;
 	}
@@ -215,6 +219,7 @@ int main() {
 			cout << lista_do_sort[i] << endl;*/
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "bucket posortowane\n";
+
 		cout << "Czas sortowania bucket:" + to_string(czas_bucket) << endl;
 		delete[] lista_do_sort;
 	}
@@ -238,6 +243,7 @@ int main() {
 			cout << lista_do_sort[i] << endl;
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "insertion posortowane\n";
+
 		cout << "Czas sortowania insertion:" + to_string(czas_insertion) << endl;
 		delete[] lista_do_sort;
 	}
@@ -261,7 +267,29 @@ int main() {
 			cout << lista_do_sort[i] << endl;
 		if (posortowane(lista_do_sort, rozmiar2))
 			cout << "heap posortowane\n";
+
 		cout << "Czas sortowania heap:" + to_string(czas_heap) << endl;
+		delete[] lista_do_sort;
+	}
+	else if (opcja == 7)
+	{
+		for (int index = 0; index < rozmiar2; index++)
+		{
+			lista_do_sort[index] = lista_elementow[index];
+		}
+		if (posortowane(lista_do_sort, rozmiar2))
+		{
+			cout << "posortowane\n";
+			return 0;
+		}
+		start = std::chrono::high_resolution_clock::now();   //start clock		
+		revQuickSort(lista_do_sort, 0, rozmiar2 - 1);
+		end = std::chrono::high_resolution_clock::now();     //stop clock		
+		czas_rev_quick = std::chrono::duration<double, std::milli>(end - start).count();
+		if (odwrotniePosortowane(lista_do_sort, rozmiar2))
+			cout << "revquick posortowane\n";
+
+		cout << "Czas sortowania revquick:" + to_string(czas_rev_quick) << endl;
 		delete[] lista_do_sort;
 	}
 	else if (opcja == 0)								//sortowanie przez scalanie, szybkie, introspektywne, kubelkowe
@@ -352,7 +380,7 @@ int main() {
 	file2 << "Rozmiar rzeczywiscie przeskanowanych danych:  " << numer << endl;      //Wyświetlanie zawartosci bazalic
 	file2 << "Sortowanie merge:  " << czas_merge << " ms" << endl;      //Wyświetlanie zawartosci bazalic
 	file2 << "Sortowanie quick:  " << czas_quick << " ms" << endl;      //Wyświetlanie zawartosci bazalic
-	file2 << "Sortowanie  insertion:  " << czas_intro << " ms" << endl;       //Wyświetlanie zawartosci bazalic
+	file2 << "Sortowanie  intro:  " << czas_intro << " ms" << endl;       //Wyświetlanie zawartosci bazalic
 	file2 << "Sortowanie bucket:  " << czas_bucket << " ms" << endl;       //Wyświetlanie zawartosci bazalic
 
 	file2.close();
