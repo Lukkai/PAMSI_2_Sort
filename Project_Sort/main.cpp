@@ -11,6 +11,10 @@ int main() {
 	cin >> ROZMIAR;
 	Film* baza = new (nothrow) Film[ROZMIAR];
 
+	std::chrono::steady_clock::time_point start, end; //pobranie pomiaru czasu startu i konca wykonywania sortowania
+	start = std::chrono::high_resolution_clock::now();   //start clock
+	double czas_przeszukiwania = 0;
+
 	ifstream file;
 	file.open("projekt2_dane.csv");         //Otwarcie pliku
 
@@ -85,6 +89,9 @@ int main() {
 	}
 
 	file.close();
+	end = std::chrono::high_resolution_clock::now();     //stop clock
+	czas_przeszukiwania = std::chrono::duration<double, std::milli>(end - start).count();
+	cout <<"Czas przeszukiwania bazy w ms: " << czas_przeszukiwania << endl;
 
 	//cout << showpos <<baza[0].wynik << noshowpos << endl;
 
@@ -113,7 +120,7 @@ int main() {
 	/*********        SORTOWANIE            ************/
 	/***************************************************/
 
-	std::chrono::steady_clock::time_point start, end; //pobranie pomiaru czasu startu i konca wykonywania sortowania
+	
 	double czas_merge = 0;                            //czasy w ms dla kazdego z sortowan
 	double czas_quick = 0;
 	double czas_intro = 0;
@@ -377,11 +384,12 @@ int main() {
 
 	ofstream file2("projekt2_dane_sorted.txt");					//zapisanie wynikow do pliku
 
-	file2 << "Rozmiar rzeczywiscie przeskanowanych danych:  " << numer << endl;      //Wyświetlanie zawartosci bazalic
-	file2 << "Sortowanie merge:  " << czas_merge << " ms" << endl;      //Wyświetlanie zawartosci bazalic
-	file2 << "Sortowanie quick:  " << czas_quick << " ms" << endl;      //Wyświetlanie zawartosci bazalic
-	file2 << "Sortowanie  intro:  " << czas_intro << " ms" << endl;       //Wyświetlanie zawartosci bazalic
-	file2 << "Sortowanie bucket:  " << czas_bucket << " ms" << endl;       //Wyświetlanie zawartosci bazalic
+	file2 << "Rozmiar rzeczywiscie przeskanowanych danych:  " << numer << endl;		//Wyswietlanie zawartosci bazalic
+	file2 << "Czas przeszukiwania bazy w ms: " << czas_przeszukiwania << endl;		//wyswietlanie czasu przeszukiwania bazy
+	file2 << "Sortowanie merge:  " << czas_merge << " ms" << endl;					//Wyswietlanie czasow sortowania
+	file2 << "Sortowanie quick:  " << czas_quick << " ms" << endl;      
+	file2 << "Sortowanie  intro:  " << czas_intro << " ms" << endl;       
+	file2 << "Sortowanie bucket:  " << czas_bucket << " ms" << endl;       
 
 	file2.close();
 
