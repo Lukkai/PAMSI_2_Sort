@@ -2,6 +2,7 @@
 #include "sortowania.hpp"
 #include <chrono>
 
+#define MAX_SIZE 1010194
 using namespace std;
 
 int main() {
@@ -9,6 +10,8 @@ int main() {
 	cout << "Wpisz wielkosc danych do pozyskania : " << endl;
 	int ROZMIAR;
 	cin >> ROZMIAR;
+	if (ROZMIAR > MAX_SIZE)
+		ROZMIAR = MAX_SIZE;
 	Film* baza = new (nothrow) Film[ROZMIAR];
 
 	std::chrono::steady_clock::time_point start, end; //pobranie pomiaru czasu startu i konca wykonywania sortowania
@@ -113,6 +116,7 @@ int main() {
 			a++;
 		}
 	}
+	
 	delete[] baza;
 	Film* lista_do_sort = new Film[rozmiar2];       //lista do sortowania elemntow
 
@@ -382,6 +386,32 @@ int main() {
 		cout << "Bledny wybor" << endl;
 
 
+		/**************			STATYSTYKA		  *********************/
+
+		double mediana = 0;
+		std::cout << std::endl;
+		std::cout << "=======MEDIANA==============" << std::endl;
+		if (rozmiar2 % 2 == 1)
+		{
+			mediana = lista_elementow[rozmiar2 / 2].wynik;         //jak nieparzysta liczba danych to mediana to wartosc srodkowa
+			std::cout << mediana << std::endl;
+		}
+		else
+		{
+			mediana = lista_elementow[rozmiar2 / 2 - 1].wynik + lista_elementow[rozmiar2 / 2].wynik;
+			mediana = mediana / 2;        //jak parzysta liczba danych to mediana to suma dwoch srodkowych podzielona na dwa
+			std::cout << mediana << std::endl;
+		}
+		double srednia = 0;
+		for (int i = 0; i < rozmiar2; i++)
+		{
+			srednia += lista_elementow[i].wynik;    //sumuje wszystkie rankingi
+		}
+		std::cout << "========WARTOSC SREDNIA===============" << std::endl;
+		std::cout << srednia / rozmiar2 << std::endl;    //dzielenie sumy wszystkich rankingow przez ilosc danych aby uzyskac wartosc srednia rankingow
+
+		
+
 	ofstream file2("projekt2_dane_sorted.txt");					//zapisanie wynikow do pliku
 
 	file2 << "Rozmiar rzeczywiscie przeskanowanych danych:  " << numer << endl;		//Wyswietlanie zawartosci bazalic
@@ -390,6 +420,8 @@ int main() {
 	file2 << "Sortowanie quick:  " << czas_quick << " ms" << endl;      
 	file2 << "Sortowanie  intro:  " << czas_intro << " ms" << endl;       
 	file2 << "Sortowanie bucket:  " << czas_bucket << " ms" << endl;       
+	file2 << "Mediana rankingu:  " << mediana << endl;       
+	file2 << "Srednia rankingu:  " << srednia << endl;       
 
 	file2.close();
 

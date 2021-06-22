@@ -1,6 +1,8 @@
-Rozmiar rzeczywiscie przeskanowanych danych:  500000
-Czas przeszukiwania bazy w ms: 7997.36
-Sortowanie merge:  17735.4 ms
-Sortowanie quick:  23295 ms
-Sortowanie  intro:  19013.2 ms
-Sortowanie bucket:  2013.33 ms
+Rozmiar rzeczywiscie przeskanowanych danych:  1010192
+Czas przeszukiwania bazy w ms: 16283.9
+Sortowanie merge:  35684.4 ms
+Sortowanie quick:  14921.5 ms
+Sortowanie  intro:  12791.1 ms
+Sortowanie bucket:  4275.97 ms
+Mediana rankingu:  5
+Srednia rankingu:  6.38975e+06
