@@ -115,20 +115,20 @@ int Partition(Film* tab, int start, int end)
 	int e = end;// zawsze na prawo
 	while (true)
 	{
-		while (tab[e].wynik > pivot)// Idziemy od końca w lewo if (koniec > pivota) dopóki zaczynamy od pierwszyego elem
+		while (tab[e].wynik > pivot)// Idziemy od końca w lewo if (koniec > pivota) dopóki zaczynamy od pierwszego elem
 			e--;
 
 		while (tab[s].wynik < pivot)
 			s++;
 
-		if (s < e) // zamieniamy miejscami gdy i < j na lewo od pivota dajemy elem. mniejsze od pivota, na prawo zaś większe od pivota elem. 
+		if (s < e) // zamieniamy miejscami gdy s < e na lewo od pivota dajemy elem. mniejsze od pivota, na prawo zaś większe od pivota elem. 
 		{
 			swapElements(tab[s], tab[e]);
 			s++;
 			e--;
 		}
 		else
-			return e;// gdy i >= j zwraca j jako oś podziału tablicy
+			return e;// gdy s >= e zwraca e jako oś podziału tablicy
 	}
 
 }
@@ -142,22 +142,20 @@ int revPartition(Film* tab, int start, int end)
 	while (true)
 	{
 		do {
-			s++;
-		} while (tab[s].wynik > pivot);// Idziemy od końca w lewo if (koniec > pivota) dopóki zaczynamy od pierwszyego elem
+			++s;
+		} while (tab[s].wynik > pivot);// Idziemy od końca w prawo if (koniec > pivota) dopóki zaczynamy od pierwszego elem
 		
 
 		do {
-			e--;
+			--e;
 		} while (tab[e].wynik < pivot);
 		
 
-		if (s >= e) // zamieniamy miejscami gdy i < j na lewo od pivota dajemy elem. mniejsze od pivota, na prawo zaś większe od pivota elem. 
+		if (s >= e) // zamieniamy miejscami gdy s < e na prawo od pivota dajemy elem. mniejsze od pivota, na lewo zaś większe od pivota elem. 
 		{
-			return e;
-			s++;
-			e--;
+			return e;			// gdy s >= e zwraca e jako oś podziału tablicy
 		}
-		swapElements(tab[s], tab[e]);// gdy i >= j zwraca j jako oś podziału tablicy
+		swapElements(tab[s], tab[e]);
 	}
 
 }

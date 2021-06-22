@@ -23,7 +23,7 @@ int main() {
 	string linia;
 	int numer = -1;                         //numer linii, pierwsza linia ignorowana, -1 zeby uporzadkowac indeksy tablicy od 0
 	int dlugosc = 0;                        //dlugosc linii
-	int kolumna = 0;                        //kolumna pliku, oddzielona ',' oraz '\"'
+	int kolumna = 0;                        //kolumna pliku, oddzielona ','
 	string sid, stytul, swynik;             //dane odpowiednich kolumn
 	while (numer < ROZMIAR && !file.eof())  //zczytuje aż do wersu w pliku ktory bedzie pusty lub do ograniczenia
 	{

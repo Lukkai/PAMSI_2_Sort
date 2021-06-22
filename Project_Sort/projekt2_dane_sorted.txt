@@ -1,4 +1,4 @@
-Rozmiar rzeczywiscie przeskanowanych danych:  200
+Rozmiar rzeczywiscie przeskanowanych danych:  2000
 Sortowanie merge:  0 ms
 Sortowanie quick:  0 ms
 Sortowanie  intro:  0 ms
